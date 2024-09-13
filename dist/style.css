@@ -33,8 +33,8 @@ body {
   );
 
   & main {
-    width: 100%;
-    height: 100%;
+    width: inherit;
+    height: inherit;
 
     display: flex;
     justify-content: center;
@@ -50,8 +50,8 @@ body {
     }
 
     & #typo {
-      width: 100%;
-      height: 100%;
+      width: inherit;
+      height: inherit;
 
       z-index: 2;
       opacity: 0;
@@ -78,8 +78,8 @@ body {
     }
 
     & :is(#plant-left, #plant-right) {
-      width: 100%;
-      height: 100%;
+      width: inherit;
+      height: inherit;
 
       z-index: 1;
 
