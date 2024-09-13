@@ -1,43 +1,9 @@
 :root {
-  /** color system **/
-  --system-color-dark: oklch(0% 0 0);
-  --system-color-light: oklch(100% 0 0);
-  --system-color-logo: oklch(60.07% 0.241 28.73 / 80%);
-  --system-color-red-100: oklch(60.07% 0.241 28.73 / 25%);
-  --system-color-red-200: oklch(60.07% 0.241 28.73 / 50%);
-  --system-color-red-300: oklch(60.07% 0.241 28.73 / 100%);
-
-  /** color themes **/
-  --system-color-theme-paths: var(--system-color-red-100)
-    var(--system-color-red-300);
-  --system-color-theme-planets: var(--system-color-red-200)
-    var(--system-color-red-200) var(--system-color-red-200)
-    var(--system-color-red-300);
-
-  /** planet's radius **/
-  /* ♂ Mars real radius ≈ 3389.5km. */
-  --planet-radius-mars: 33.895px;
-  /* 🜨 Earth real radius ≈ 6371km. */
-  --planet-radius-earth: 63.71px;
-  /* ♀ Venus real radius ≈ 6051.8km. */
-  --planet-radius-venus: 60.518px;
-  /* ☿ Mercury real radius ≈ 2439.7km. */
-  --planet-radius-mercury: 24.397px;
-  /* ☉ Sun real radius ≈ 696340km (40 times smaller compared to the planet's dimensions values). */
-  --star-radius-sun: 174.085px;
-
-  /** planet's trajectories **/
-  --planet-trajectory-mars: 446.085px;
-  --planet-trajectory-earth: 332.085px;
-  --planet-trajectory-venus: 257.085px;
-  --planet-trajectory-mercury: 203.085px;
-
-  /** units **/
-  --system-margin-mars: 292px;
-  --system-margin-earth: 35px;
-  --system-margin-venus: 15px;
-  --system-margin-mercury: 38px;
-  --system-border-width: min(2px, .4dvmin);
+  --system-color-background-dark: oklch(5% 0 0);
+  --system-color-background-light: oklch(15.81% 0.05 22.71);
+  --system-color-glow: oklch(86.04% 0.075 25.94);
+  --system-color-stroke: oklch(79.4% 0.175 71.05 / 40%);
+  --system-color-typo: oklch(100% 0 0);
 }
 
 *,
@@ -54,277 +20,1266 @@ html {
 }
 
 body {
-  overflow: hidden;
-
   width: 100dvw;
   height: 100dvh;
-  
-  background-color: var(--system-color-dark);
 
-  /* ☛ ⚠ The distances between the planets and the Sun are not respected because of the diameter of it.
-    Also note that for aesthetic reasons, the planet's trajectories are not elliptical and are not oriented as they should be. */
+  overflow: hidden;
 
-  & .solar-system {
+  background-color: var(--system-color-background-dark);
+  background: radial-gradient(
+    circle,
+    var(--system-color-background-light),
+    var(--system-color-background-dark)
+  );
+
+  & main {
+    inline-size: inherit;
+    block-size: inherit;
+
     display: flex;
     justify-content: center;
     align-items: center;
 
-    inline-size: inherit;
-    block-size: inherit;
+    & :is(.leafs, .buds, #bee-left, #bee-b-left, #bee-right, #bee-b-right) {
+      visibility: hidden;
 
-    transform: skewX(-45deg);
-    -webkit-transform: skewX(-45deg);
-
-    & .solar-system__sun {
-      z-index: 100;
-
-      /* ☛ ⚠ Size of the Sun is not respected here. */
-      aspect-ratio: 1;
-      inline-size: var(--star-radius-sun);
-      border-radius: 50%;
-
-      background-color: var(--system-color-red-300);
-      background: linear-gradient(
-        135deg,
-        var(--system-color-red-300) 20%,
-        transparent
-      );
-
-      filter: drop-shadow(0px 0px 2px var(--system-color-red-300)) blur(1px);
-      -webkit-filter: drop-shadow(0px 0px 2px var(--system-color-red-300))
-        blur(1px);
-
-      transform: skewX(45deg);
-      -webkit-transform: skewX(45deg);
+      -webkit-stroke: none;
+      stroke: none;
+      -webkit-fill: var(--system-color-typo);
+      fill: var(--system-color-typo);
     }
 
-    & article:not(.solar-system__sun) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    & #typo {
+      inline-size: inherit;
+      block-size: inherit;
 
-      position: absolute;
-      z-index: 99;
+      z-index: 2;
+      opacity: 0;
 
-      aspect-ratio: 1;
-      border-radius: 50%;
+      margin-inline: 1%;
 
-      background: transparent;
+      -webkit-fill: var(--system-color-typo);
+      fill: var(--system-color-typo);
+      -webkit-stroke: var(--system-color-typo);
+      stroke: var(--system-color-typo);
+      -webkit-stroke-width: 2;
+      stroke-width: 2;
 
-      border-width: var(--system-border-planets-width);
-      border-style: solid;
-      border-color: var(--system-color-theme-planets);
+      filter: drop-shadow(0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke))
+        drop-shadow(-0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke))
+        drop-shadow(0dvmin 0.8dvmin 1.4dvmin var(--system-color-stroke));
+      -webkit-filter: drop-shadow(
+          0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke)
+        )
+        drop-shadow(-0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke))
+        drop-shadow(0dvmin 0.8dvmin 1.4dvmin var(--system-color-stroke));
 
-      &::after {
-        content: "";
+      animation: font-animate 1.15s linear 0.5s forwards;
+    }
+
+    & :is(#plant-left, #plant-right) {
+      inline-size: inherit;
+      block-size: inherit;
+
+      z-index: 1;
+
+      -webkit-fill: none;
+      fill: none;
+      -webkit-stroke: var(--system-color-typo);
+      stroke: var(--system-color-typo);
+      -webkit-stroke-width: 10;
+      stroke-width: 10;
+      -webkit-stroke-linecap: round;
+      stroke-linecap: round;
+      -webkit-stroke-linejoin: round;
+      stroke-linejoin: round;
+
+      filter: drop-shadow(0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke))
+        drop-shadow(-0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke))
+        drop-shadow(0dvmin 0.8dvmin 1.4dvmin var(--system-color-stroke));
+      -webkit-filter: drop-shadow(
+          0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke)
+        )
+        drop-shadow(-0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke))
+        drop-shadow(0dvmin 0.8dvmin 1.4dvmin var(--system-color-stroke));
+    }
+
+    & #plant-left {
+      -webkit-transform: rotateZ(-35deg) scaleX(-1);
+      /* ✑ mirror rotation is scaleX(-1) */
+      transform: rotateZ(-35deg) scaleX(-1);
+
+      margin-inline: 5dvmin 0;
+    }
+
+    & #plant-right {
+      -webkit-transform: rotateZ(35deg);
+      transform: rotateZ(35deg);
+
+      margin-inline: 0 5dvmin;
+    }
+
+    & :is(#bee-left, #bee-b-left, #bee-right, #bee-b-right) {
+      z-index: 3;
+
+      filter: drop-shadow(0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke))
+        drop-shadow(0dvmin 0.8dvmin 1.4dvmin var(--system-color-stroke));
+      -webkit-filter: drop-shadow(
+          0.6dvmin 0dvmin 1.4dvmin var(--system-color-stroke)
+        )
+        drop-shadow(0dvmin 0.8dvmin 1.4dvmin var(--system-color-stroke));
+    }
+
+    & #bee-left {
+      -webkit-animation: fly-left 9s ease-in-out 4.7s infinite;
+      animation: fly-left 9s ease-in-out 4.7s infinite;
+    }
+
+    & #bee-b-left {
+      -webkit-animation: fly-2-left 9s ease-in-out 4.8s infinite;
+      animation: fly-2-left 9s ease-in-out 4.8s infinite;
+    }
+
+    & #bee-right {
+      -webkit-animation: fly-right 9s linear 5s infinite;
+      animation: fly-right 9s linear 5s infinite;
+    }
+
+    & #bee-b-right {
+      -webkit-animation: fly-2-right 9s ease-in-out 4.5s infinite;
+      animation: fly-2-right 9s ease-in-out 4.5s infinite;
+    }
+
+    & :is(.right-wing, .right-wing-b) {
+      -webkit-transform-origin: 0 90%;
+      transform-origin: 0 90%;
+
+      -webkit-animation: flapping-right 0.1s linear infinite;
+      animation: flapping-right 0.1s linear infinite;
+
+      /* ✑ rotation glitch fixing */
+      transform-box: fill-box;
+    }
+
+    & :is(.left-wing, .left-wing-b) {
+      -webkit-transform-origin: 100% 100%;
+      transform-origin: 100% 100%;
+
+      -webkit-animation: flapping-left 0.1s linear infinite;
+      animation: flapping-left 0.1s linear infinite;
+
+      /* ✑ rotation glitch fixing */
+      transform-box: fill-box;
+    }
+
+    & :is(.stem-1, .stem-2, .stem-3, .stem-4) {
+      visibility: hidden;
+
+      -webkit-stroke-dasharray: 200%;
+      stroke-dasharray: 200%;
+    }
+    & .stem-1 {
+      -webkit-animation: stretch 4s ease-in-out 1s forwards;
+      animation: stretch 4s ease-in-out 1s forwards;
+    }
+
+    & .stem-2 {
+      -webkit-animation: stretch-secondary 4s ease-in-out 2.35s forwards;
+      animation: stretch-secondary 4s ease-in-out 2.35s forwards;
+    }
+
+    & .stem-3 {
+      -webkit-animation: stretch-secondary 4s ease-in-out 2.8s forwards;
+      animation: stretch-secondary 4s ease-in-out 2.8s forwards;
+    }
+
+    & .stem-4 {
+      -webkit-animation: stretch-secondary 4s ease-in-out 1.8s forwards;
+      animation: stretch-secondary 4s ease-in-out 1.8s forwards;
+    }
+
+    & :is(.leaf-1, .leaf-2) {
+      animation: bloom 1s linear 1.8s forwards;
+    }
+
+    & :is(.leaf-3, .leaf-4) {
+      animation: bloom 1s linear 2.35s forwards;
+    }
+
+    & :is(.leaf-5, .leaf-6) {
+      animation: bloom 1s linear 2.8s forwards;
+    }
+
+    & .bud-1 {
+      -webkit-transform-origin: 40% 20%;
+      transform-origin: 40% 20%;
+
+      animation: popping 0.5s cubic-bezier(1, 0, 0, 1) 3.2s forwards;
+
+      /* ✑ rotation glitch fixing */
+      transform-box: fill-box;
+    }
+
+    & .bud-2 {
+      -webkit-transform-origin: 80% 80%;
+      transform-origin: 80% 80%;
+      /* ✑ rotation glitch fixing */
+      transform-box: fill-box;
+
+      animation: popping 0.5s cubic-bezier(1, 0, 0, 1) 3.9s forwards;
+    }
+
+    & .bud-3 {
+      -webkit-transform-origin: 60% 20%;
+      transform-origin: 60% 20%;
+      /* ✑ rotation glitch fixing */
+      transform-box: fill-box;
+
+      animation: popping 0.5s cubic-bezier(1, 0, 0, 1) 4.2s forwards;
+    }
+
+    & .bud-4 {
+      -webkit-transform-origin: 15% 35%;
+      transform-origin: 15% 35%;
+      /* ✑ rotation glitch fixing */
+      transform-box: fill-box;
+
+      animation: popping 0.5s cubic-bezier(1, 0, 0, 1) 3.5s forwards;
+    }
+
+    & :is(.flower-1, .flower-2, .flower-3, .flower-4) {
+      visibility: hidden;
+
+      -webkit-stroke-dasharray: 200%;
+      stroke-dasharray: 200%;
+      -webkit-stroke-width: 5;
+      stroke-width: 5;
+    }
+    & .flower-1 {
+      animation: bloom 1s linear 4s forwards;
+    }
+
+    & .flower-2 {
+      animation: bloom 1s linear 4.4s forwards;
+    }
+
+    & .flower-3 {
+      animation: bloom 1s linear 4.7s forwards;
+    }
+
+    & .flower-4 {
+      animation: bloom 1s linear 3.7s forwards;
+    }
+
+    & #dust-wrap {
+      z-index: -1;
+      opacity: 0;
+
+      animation: dust-start 3s linear 4.5s forwards;
+
+      & .dust {
+        position: absolute;
+        display: block;
+        visibility: hidden;
+
         aspect-ratio: 1;
-        inline-size: 40%;
-        border-radius: inherit;
 
-        background: var(--system-color-red-300);
+        border-radius: 50%;
+        background: var(--system-color-stroke);
 
-        -webkit-filter: drop-shadow(0px 0px 4.8px var(--system-color-red-200))
-          blur(0.5px);
-        filter: drop-shadow(0px 0px 4.8px var(--system-color-red-200))
-          blur(0.5px);
-      }
-    }
+        filter: contrast(150%) saturate(200%)
+          drop-shadow(0dvmin 0dvmin 1dvmin var(--system-color-glow))
+          drop-shadow(0dvmin 0dvmin 2dvmin var(--system-color-glow));
+        -webkit-filter: contrast(150%) saturate(200%)
+          drop-shadow(0dvmin 0dvmin 1dvmin var(--system-color-glow))
+          drop-shadow(0dvmin 0dvmin 2dvmin var(--system-color-glow));
 
-    & section {
-      position: absolute;
-      z-index: 98;
-      aspect-ratio: 1;
+        &:nth-of-type(1) {
+          inset: 10% auto auto 30%;
+          inline-size: 1.1dvmin;
 
-      border-radius: 50%;
+          animation: dust-opacity-3 10s infinite, dust-move 40s linear infinite;
+        }
 
-      border-width: var(--system-border-width);
-      border-style: solid;
-      border-color: var(--system-color-theme-paths);
-    }
+        &:nth-of-type(2) {
+          inset: 43% auto auto 40%;
+          inline-size: 0.8dvmin;
 
-    & .solar-system__mercury-trajectory {
-      inline-size: var(--planet-trajectory-mercury);
+          animation: dust-opacity-2 8s 1s infinite,
+            dust-move 50s linear infinite;
+        }
 
-      /* ☿ Mercury revolution duration ≈ 87.969 days. */
-      -webkit-animation: revolution 43.9845s linear infinite;
-      animation: revolution 43.9845s linear infinite;
+        &:nth-of-type(3) {
+          inset: 15% auto auto 35%;
+          inline-size: 0.8dvmin;
 
-      & .solar-system__mercury-trajectory__mercury {
-        inline-size: var(--planet-radius-mercury);
-        top: var(--system-margin-mercury);
+          animation: dust-opacity 10s 1.5s infinite,
+            dust-move 50s linear infinite;
+        }
 
-        /* ☿ Mercury rotation period ≈ 58.645 days. */
-        -webkit-animation: revolution 29.3225s linear infinite;
-        animation: revolution 29.3225s linear infinite;
-      }
-    }
+        &:nth-of-type(4) {
+          inset: 13% auto auto 40%;
+          inline-size: 1.2dvmin;
 
-    & .solar-system__venus-trajectory {
-      inline-size: var(--planet-trajectory-venus);
+          animation: dust-opacity-3 8s infinite, dust-move 40s linear infinite;
+        }
 
-      /* ♀ Venus revolution duration ≈ 224.667 days. */
-      -webkit-animation: revolution 112.3335s linear infinite;
-      animation: revolution 112.3335s linear infinite;
+        &:nth-of-type(5) {
+          inset: 32% auto auto 32%;
+          inline-size: 1.2dvmin;
 
-      & .solar-system__venus-trajectory__venus {
-        inline-size: var(--planet-radius-venus);
-        top: var(--system-margin-venus);
+          animation: dust-opacity 8s 1s infinite, dust-move 40s linear infinite;
+        }
 
-        /* ♀ Venus rotation period ≈ 243.023 days. */
-        -webkit-animation: revolution 121.513s linear infinite;
-        animation: revolution 121.513s linear infinite;
-      }
-    }
+        &:nth-of-type(6) {
+          inset: 22% auto auto 70%;
+          inline-size: 1.2dvmin;
 
-    & .solar-system__earth-trajectory {
-      inline-size: var(--planet-trajectory-earth);
+          animation: dust-opacity-2 10s 0.5s infinite,
+            dust-move 50s linear infinite;
+        }
 
-      /* 🜨 Earth revolution duration ≈ 365.2422 days. */
-      -webkit-animation: revolution 182.6211s linear infinite;
-      animation: revolution 182.6211s linear infinite;
+        &:nth-of-type(7) {
+          inset: 28% auto auto 74%;
+          inline-size: 0.8dvmin;
 
-      & .solar-system__earth-trajectory__earth {
-        inline-size: var(--planet-radius-earth);
-        top: var(--system-margin-earth);
+          animation: dust-opacity-3 8s infinite, dust-move 40s linear infinite;
+        }
 
-        /* ✑ animation-duration: .5s ≈ 24 hours on Earth. */
-        -webkit-animation: revolution 0.4874s linear infinite;
-        animation: revolution 0.4874s linear infinite;
+        &:nth-of-type(8) {
+          inset: 24% auto auto 75%;
+          inline-size: 1.1dvmin;
 
-        &::after {
-          -webkit-animation: blink 2s linear infinite;
-          animation: blink 2s linear infinite;
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(9) {
+          inset: 15% auto auto 115%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 8s 1.5s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(10) {
+          inset: 10% auto auto 110%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-3 8s 1s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(11) {
+          inset: 15% auto auto 105%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity 10s 1.5s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(12) {
+          inset: 5% auto auto 5%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-3 10s 1s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(13) {
+          inset: 8% auto auto 10%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-3 8s 1.5s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(14) {
+          inset: 35% auto auto 110%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity 8s 1.5s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(15) {
+          inset: 30% auto auto 107%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s 1s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(16) {
+          inset: 22% auto auto 137%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s 1s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(17) {
+          inset: 32% auto auto 87%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-2 8s 1s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(18) {
+          inset: 42% auto auto 127%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(19) {
+          inset: 37% auto auto 4%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity 8s 1s infinite, dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(20) {
+          inset: 22% auto auto 190%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-3 10s 0.5s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(21) {
+          inset: 28% auto auto 179%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-3 8s infinite, dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(22) {
+          inset: 42% auto auto 177%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(23) {
+          inset: 60% auto auto 30%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s infinite, dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(24) {
+          inset: 93% auto auto 40%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-3 8s 1s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(25) {
+          inset: 65% auto auto 15%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity 10s 1.5s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(26) {
+          inset: 63% auto auto 50%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity 8s infinite, dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(27) {
+          inset: 82% auto auto 32%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-2 8s 1s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(28) {
+          inset: 70% auto auto 60%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity 10s 0.5s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(29) {
+          inset: 78% auto auto 74%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-3 8s infinite, dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(30) {
+          inset: 74% auto auto 75%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity 10s 1s infinite, dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(31) {
+          inset: 65% auto auto 115%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 8s 1.5s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(32) {
+          inset: 60% auto auto 100%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity 8s 1s infinite, dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(33) {
+          inset: 75% auto auto 105%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-3 10s 1.5s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(34) {
+          inset: 55% auto auto 5%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(35) {
+          inset: 68% auto auto 10%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity 8s 1.5s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(36) {
+          inset: 95% auto auto 110%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 8s 1.5s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(37) {
+          inset: 80% auto auto 107%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(38) {
+          inset: 72% auto auto 147%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(39) {
+          inset: 82% auto auto 87%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-3 8s 1s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(40) {
+          inset: 92% auto auto 127%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(41) {
+          inset: 87% auto auto 11%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-3 8s 1s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(42) {
+          inset: 72% auto auto 180%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity 10s 0.5s infinite,
+            dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(43) {
+          inset: 78% auto auto 179%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-3 8s infinite, dust-move 40s linear infinite;
+        }
+
+        &:nth-of-type(44) {
+          inset: 82% auto auto 167%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move 50s linear infinite;
+        }
+
+        &:nth-of-type(45) {
+          inset: 10% auto auto 30%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(46) {
+          inset: 43% auto auto 40%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(47) {
+          inset: 15% auto auto 35%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-3 10s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(48) {
+          inset: 13% auto auto 40%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-2 8s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(49) {
+          inset: 32% auto auto 32%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-2 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(50) {
+          inset: 22% auto auto 70%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-3 10s 0.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(51) {
+          inset: 28% auto auto 74%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-2 8s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(52) {
+          inset: 24% auto auto 75%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(53) {
+          inset: 15% auto auto 115%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 8s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(54) {
+          inset: 10% auto auto 110%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(55) {
+          inset: 15% auto auto 105%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(56) {
+          inset: 5% auto auto 5%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(57) {
+          inset: 8% auto auto 10%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity 8s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(58) {
+          inset: 35% auto auto 110%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 8s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(59) {
+          inset: 30% auto auto 107%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(60) {
+          inset: 22% auto auto 137%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(61) {
+          inset: 32% auto auto 87%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-2 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(62) {
+          inset: 42% auto auto 127%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(63) {
+          inset: 37% auto auto 4%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(64) {
+          inset: 22% auto auto 190%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-3 10s 0.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(65) {
+          inset: 28% auto auto 179%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-3 8s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(66) {
+          inset: 42% auto auto 177%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(67) {
+          inset: 60% auto auto 30%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(68) {
+          inset: 93% auto auto 40%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(69) {
+          inset: 65% auto auto 15%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-2 10s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(70) {
+          inset: 63% auto auto 50%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity 8s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(71) {
+          inset: 82% auto auto 32%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-2 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(72) {
+          inset: 70% auto auto 60%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-3 10s 0.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(73) {
+          inset: 18% auto auto 74%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity-2 8s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(74) {
+          inset: 74% auto auto 75%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(75) {
+          inset: 65% auto auto 115%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 8s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(76) {
+          inset: 60% auto auto 100%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-3 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(77) {
+          inset: 75% auto auto 105%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity 10s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(78) {
+          inset: 55% auto auto 5%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(79) {
+          inset: 68% auto auto 10%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-2 8s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(80) {
+          inset: 95% auto auto 110%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 8s 1.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(81) {
+          inset: 80% auto auto 107%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(82) {
+          inset: 72% auto auto 147%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(83) {
+          inset: 82% auto auto 87%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(84) {
+          inset: 92% auto auto 127%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-3 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(85) {
+          inset: 87% auto auto 11%;
+          inline-size: 1.2dvmin;
+
+          animation: dust-opacity-2 8s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(86) {
+          inset: 72% auto auto 180%;
+          inline-size: 1dvmin;
+
+          animation: dust-opacity-3 10s 0.5s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(87) {
+          inset: 78% auto auto 179%;
+          inline-size: 0.8dvmin;
+
+          animation: dust-opacity 8s infinite,
+            dust-move-2 50s 16s linear infinite;
+        }
+
+        &:nth-of-type(88) {
+          inset: 82% auto auto 167%;
+          inline-size: 1.1dvmin;
+
+          animation: dust-opacity-2 10s 1s infinite,
+            dust-move-2 50s 16s linear infinite;
         }
       }
     }
-
-    & .solar-system__mars-trajectory {
-      inline-size: var(--planet-trajectory-mars);
-
-      /* ♂ Mars revolution duration ≈ 686.885 days. */
-      -webkit-animation: revolution 343.4425s linear infinite;
-      animation: revolution 343.4425s linear infinite;
-
-      & .solar-system__mars-trajectory__mars {
-        inline-size: var(--planet-radius-mars);
-        top: var(--system-margin-mars);
-
-        /* ✑ animation-duration: .5s ≈ 24 hours on Earth. */
-        -webkit-animation: revolution 0.5128s linear infinite;
-        animation: revolution 0.5128s linear infinite;
-      }
-    }
-  }
-    & #logo {
-      inline-size: 8dvmin;
-      aspect-ratio: 1;
-      position: fixed;
-      inset: auto 1.6dvmin 1.6dvmin auto;     
-
-      opacity: 0.3;
-      -webkit-filter: saturate(60%);
-      filter: saturate(60%);
-
-      transition: opacity 0.7s linear, filter 0.7s linear;
-
-      & circle {
-        -webkit-fill:var(--system-color-logo);
-        fill:var(--system-color-logo);
-      }
-
-      & path {
-        -webkit-fill:var(--system-color-dark);
-        fill:var(--system-color-dark);
-      }
-
-      &:hover {
-        opacity: 1;      
-        -webkit-filter: saturate(100%);
-        filter: saturate(100%);
-      }
-    }
-  }
-
-
-/*
-▀▄▀▄▀▄▀▄▀▄▀▄ ANIMATIONS ▀▄▀▄▀▄▀▄▀▄▀▄
-*/
-
-@keyframes revolution {
-  to {
-    transform: rotateZ(1turn);
   }
 }
 
-@keyframes blink {
-  to {
-    background-color: var(--system-color-dark);
+/*
+      ▀▄▀▄▀▄▀▄▀▄▀▄ ANIMATIONS ▀▄▀▄▀▄▀▄▀▄▀▄
+      */
 
-    filter: drop-shadow(0 0 0 var(--system-color-red-200)) blur(0);
+@keyframes bloom {
+  to {
+    visibility: visible;
+  }
+}
+
+@keyframes dust-start {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dust-move {
+  0% {
+    -webkit-transform: translate3d(0dvmin, -100dvmin, 0dvmin);
+    transform: translate3d(0dvmin, -100dvmin, 0dvmin);
+  }
+
+  50% {
+    -webkit-transform: translate3d(-16.6dvmin, 0dvmin, 0dvmin);
+    transform: translate3d(-16.6dvmin, 0dvmin, 0dvmin);
+  }
+
+  100% {
+    visibility: visible;
+
+    -webkit-transform: translate3d(0dvmin, 100dvmin, 0dvmin);
+    transform: translate3d(0dvmin, 100dvmin, 0dvmin);
+  }
+}
+
+@keyframes dust-move-2 {
+  0% {
+    -webkit-transform: translate3d(0dvmin, -100dvmin, 0dvmin);
+    transform: translate3d(0dvmin, -100dvmin, 0dvmin);
+  }
+
+  50% {
+    -webkit-transform: translate3d(-8.3dvmin, 0dvmin, 0dvmin);
+    transform: translate3d(-8.3dvmin, 0dvmin, 0dvmin);
+  }
+
+  100% {
+    visibility: visible;
+
+    -webkit-transform: translate3d(0dvmin, 100dvmin, 0dvmin);
+    transform: translate3d(0dvmin, 100dvmin, 0dvmin);
+  }
+}
+
+@keyframes dust-opacity {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  10%,
+  90% {
+    opacity: 0.5;
+  }
+
+  20%,
+  30%,
+  40%,
+  50%,
+  60%,
+  70%,
+  80% {
+    opacity: 1;
+  }
+}
+
+@keyframes dust-opacity-2 {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  10%,
+  90% {
+    opacity: 0.3;
+  }
+
+  20%,
+  30%,
+  40%,
+  50%,
+  60%,
+  70%,
+  80% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes dust-opacity-3 {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  10%,
+  90% {
+    opacity: 0.15;
+  }
+
+  20%,
+  30%,
+  40%,
+  50%,
+  60%,
+  70%,
+  80% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes flapping-left {
+  to {
+    transform: rotateZ(-55deg);
+  }
+}
+
+@keyframes flapping-right {
+  to {
+    transform: rotateZ(55deg);
+  }
+}
+
+@keyframes fly-left {
+  from {
+    transform: rotateZ(-25deg) translate3d(10rem, 0rem, 0rem);
+  }
+
+  50% {
+    transform: rotateZ(0deg) translate3d(10rem, 3rem, 0rem);
+  }
+
+  to {
+    visibility: visible;
+
+    transform: rotateZ(-25deg) translate3d(10rem, 0rem, 0rem);
+  }
+}
+
+@keyframes fly-right {
+  0%,
+  10%,
+  20% {
+    transform: translate3d(44rem, 13.5rem, 0rem);
+  }
+
+  30% {
+    transform: translate3d(41.5rem, 16rem, 0rem);
+  }
+
+  40% {
+    transform: translate3d(39rem, 18.5rem, 0rem);
+  }
+
+  50% {
+    transform: translate3d(41.5rem, 21rem, 0rem);
+  }
+
+  60% {
+    transform: translate3d(44rem, 23.5rem, 0rem);
+  }
+
+  70% {
+    transform: translate3d(46.5rem, 21rem, 0rem);
+  }
+
+  80% {
+    transform: translate3d(49rem, 18.5rem, 0rem);
+  }
+
+  90% {
+    transform: translate3d(46.5rem, 16rem, 0rem);
+  }
+
+  100% {
+    visibility: visible;
+
+    transform: translate3d(44rem, 13.5rem, 0rem);
+  }
+}
+
+@keyframes fly-2-left {
+  0% {
+    transform: translate3d(30rem, 15rem, 0rem);
+  }
+
+  25% {
+    transform: translate3d(25rem, 15rem, 0rem);
+  }
+
+  50% {
+    transform: translate3d(30rem, 15rem, 0rem);
+  }
+
+  75% {
+    transform: translate3d(35rem, 15rem, 0rem);
+  }
+
+  100% {
+    visibility: visible;
+
+    transform: translate3d(30rem, 15rem, 0rem);
+  }
+}
+
+@keyframes fly-2-right {
+  from {
+    transform: rotateZ(-25deg) translate3d(12rem, 3rem, 0rem);
+  }
+
+  50% {
+    transform: rotateZ(0);
+  }
+
+  to {
+    visibility: visible;
+
+    transform: rotateZ(-25deg) translate3d(12rem, 3rem, 0rem);
+  }
+}
+
+@keyframes font-animate {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popping {
+  from {
+    visibility: visible;
+
+    transform: scale(0.7);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  to {
+    visibility: hidden;
+
+    transform: scale(0.7);
+  }
+}
+
+@keyframes stretch {
+  from {
+    stroke-dashoffset: 200%;
+  }
+
+  to {
+    visibility: visible;
+
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes stretch-secondary {
+  from {
+    stroke-dashoffset: 200%;
+  }
+
+  to {
+    visibility: visible;
+
+    stroke-dashoffset: 0;
   }
 }
 
 /*** ◰ media queries ***/
-/** smartphone **/
-@media screen and (width < 768px) {
+/** aspect ratio **/
+@media (orientation: landscape) {
   body {
-    & .solar-system {
-      & .solar-system__sun {
-        inline-size: calc(var(--star-radius-sun) / 2);
-      }
-      & .solar-system__mercury-trajectory {
-        inline-size: calc(var(--planet-trajectory-mercury) / 2);
+    display: flex;
 
-        & .solar-system__mercury-trajectory__mercury {
-          inline-size: calc(var(--planet-radius-mercury) / 2);
+    justify-content: center;
+    align-items: center;
 
-          top: calc(var(--system-margin-mercury) - 20px);
-        }
-      }
-
-      & .solar-system__venus-trajectory {
-        inline-size: calc(var(--planet-trajectory-venus) / 2);
-
-        & .solar-system__venus-trajectory__venus {
-          inline-size: calc(var(--planet-radius-venus) / 2);
-
-          top: calc(var(--system-margin-venus) - 9px);
-        }
-      }
-
-      & .solar-system__earth-trajectory {
-        inline-size: calc(var(--planet-trajectory-earth) / 2);
-
-        & .solar-system__earth-trajectory__earth {
-          inline-size: calc(var(--planet-radius-earth) / 2);
-
-          top: calc(var(--system-margin-earth) - 19px);
-        }
-      }
-
-      & .solar-system__mars-trajectory {
-        inline-size: calc(var(--planet-trajectory-mars) / 2);
-
-        & .solar-system__mars-trajectory__mars {
-          inline-size: calc(var(--planet-radius-mars) / 2);
-
-          top: calc(var(--system-margin-mars) - 234px);
-        }
-      }
+    & main {
+      inline-size: 75%;
+      block-size: 75%;
     }
   }
 }
-
-/** 4K and 8K Ultra HD **/
-/*
-@media screen and (width > 1920px) {
-    & .solar-system__sun {
-        inline-size: calc(var(--star-radius-sun) * 2);
-    }
-}
-
-@media screen and (width > 3840px) {
-    & .solar-system__sun {
-        inline-size: calc(var(--star-radius-sun) * 4);
-    }
-}*/
