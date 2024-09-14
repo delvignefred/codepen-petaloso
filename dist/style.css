@@ -20,8 +20,8 @@ html {
 }
 
 body {
-  width: 100dvw;
-  height: 100dvh;
+  inline-size: 100dvw;
+  block-size: 100dvh;
 
   overflow: hidden;
 
